@@ -1,5 +1,3 @@
-CNNbasedPHM
-
 ![Model](https://user-images.githubusercontent.com/25438139/90269985-75bbf600-de94-11ea-9880-28366586303d.png)
 This repository contains the official implementation of the following paper:
 > **CNN based Actuator Fault Cause Classification System Using Noise**<br>

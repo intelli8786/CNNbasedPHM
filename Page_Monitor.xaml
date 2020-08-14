@@ -1,0 +1,136 @@
+﻿<Window x:Class="CNNBasedPHM.Page_Monitor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CNNBasedPHM"
+        xmlns:math="http://hexinnovation.com/math"
+        xmlns:childviews="clr-namespace:CNNBasedPHM.ChildViews"
+        xmlns:publiccontrol="clr-namespace:CNNBasedPHM.PublicControl"
+        mc:Ignorable="d"
+        Title="CNNBasedPHM" WindowState="Maximized" WindowStyle="None" Background="#454548">
+
+    <Window.Resources>
+        <!-- MathConverter 선언 -->
+        <math:MathConverter x:Key="math" />
+    </Window.Resources>
+
+
+    <!-- 모니터 최대화 사이즈 -->
+    <Window.Style>
+        <Style>
+            <Setter Property="Window.Height" Value="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}}"/>
+            <Setter Property="Window.Width" Value="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}}"/>
+        </Style>
+    </Window.Style>
+    <!-- 현재 최대화 사이즈의 2배로 설정 -->
+    <Grid>
+        <ScrollViewer x:Name="xml_Scroll" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden">
+            <Grid
+            Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}}"
+            Width="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Width, Converter={StaticResource math}, ConverterParameter=x*2}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="20*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <publiccontrol:PublicButton x:Name="xml_toHardware" Text="하드웨어 구성" FontSize="25" Margin="5" MouseUp="xml_toHardware_MouseUp"/>
+                            <publiccontrol:PublicButton x:Name="xml_toSoftware" Text="소프트웨어 구성" FontSize="25" Margin="5" MouseUp="xml_toSoftware_MouseUp"/>
+                        </StackPanel>
+                        <TextBlock FontSize="30" Text="관리 콘솔" Foreground="White" HorizontalAlignment="Right" Margin="20 5 20 5"/>
+                    </Grid>
+
+
+                    <Grid Grid.Row="1">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="137*"/>
+                            <ColumnDefinition Width="53*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0" Grid.RowSpan="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="400*"/>
+                                <RowDefinition Height="100*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Foreground="White" FontSize="20" Text="진행 상황" Grid.RowSpan="2" Margin="5"/>
+                                <Border Grid.Row="1"  BorderBrush="White" BorderThickness="2" Margin="5" CornerRadius="5" Grid.RowSpan="2">
+                                    <Grid>
+                                        <Canvas x:Name="waveCanvas" HorizontalAlignment="Left" Height="200" Grid.Row="0" VerticalAlignment="Top" Width="400" Background="Black" Margin="15,75,0,0" />
+                                        <publiccontrol:ProgressImage x:Name="xml_process1_1" IsEnabled="False" Width="90" Height="140" ElementImage="pack://application:,,,/Resources/arrow_right.png" Margin="445,112,489.5,389.5"/>
+                                        <publiccontrol:ProgressImage x:Name="xml_process1_2" IsEnabled="False" ElementName="전처리기" FontSize="20" Width="140" Height="180" ElementImage="pack://application:,,,/Resources/extractor.png" Margin="581,91,303.5,370.5"/>
+                                        <publiccontrol:ProgressImage x:Name="xml_process1_3" IsEnabled="False" Width="90" Height="140" ElementImage="pack://application:,,,/Resources/arrow_right.png" Margin="761,108,173.5,393.5"/>
+
+                                        <publiccontrol:ProgressImage x:Name="xml_process2_1" IsEnabled="False" ElementName="CHROMA CQT" FontSize="20" Width="200" Height="140" Margin="868,10,-43.5,491.5"/>
+                                        <publiccontrol:ProgressImage x:Name="xml_process2_2" IsEnabled="False" ElementName="CHROMA STFT" FontSize="20" Width="200" Height="140" Margin="1111,11,59,628"/>
+                                        <publiccontrol:ProgressImage x:Name="xml_process2_3" IsEnabled="False" ElementName="MFCC" FontSize="20" Width="200" Height="140" Margin="868,178,-43.5,323.5"/>
+                                        <publiccontrol:ProgressImage x:Name="xml_process2_4" IsEnabled="False" ElementName="Melspectrogram" FontSize="20" Width="200" Height="140" Margin="1111,179,59,460"/>
+
+                                        <publiccontrol:ProgressImage x:Name="xml_process3_1" IsEnabled="False" Width="90" Height="140" ElementImage="pack://application:,,,/Resources/arrow_down.png" Margin="1018,412,262.5,318.5"/>
+                                        <publiccontrol:ProgressImage x:Name="xml_process3_2" IsEnabled="False" ElementName="Classifier" FontSize="20" Width="270" Height="300" ElementImage="pack://application:,,,/Resources/ai.png" Margin="923,504,177.5,66.5"/>
+
+                                        <publiccontrol:ProgressImage x:Name="xml_process0_1" IsEnabled="False" ElementName="학습데이터셋" FontSize="20" Width="180" Height="200" ElementImage="pack://application:,,,/Resources/dataset.png" Margin="156,552,1034.5,118.5"/>
+                                        <publiccontrol:ProgressImage x:Name="xml_process0_2" IsEnabled="False" Width="90" Height="140" ElementImage="pack://application:,,,/Resources/arrow_right.png" Margin="380,580,900.5,150.5"/>
+                                        <publiccontrol:ProgressImage x:Name="xml_process0_3" IsEnabled="False" ElementName="Convolution Neural Network" FontSize="20" Width="270" Height="300" ElementImage="pack://application:,,,/Resources/dnn.png" Margin="499,504,601.5,66.5"/>
+                                        <publiccontrol:ProgressImage x:Name="xml_process0_4" IsEnabled="False" Width="90" Height="140" ElementImage="pack://application:,,,/Resources/arrow_right.png" Margin="798,580,482.5,150.5"/>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+
+                            <Grid Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Foreground="White" FontSize="20" Text="분류 결과" Grid.RowSpan="2" Margin="5"/>
+                                <Border Grid.Row="1" BorderBrush="White" BorderThickness="2" Margin="5" CornerRadius="5">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <publiccontrol:ClassPercentage x:Name="xml_normal" ClassImage="pack://application:,,,/Resources/normal.png" ClassName="정상 작동" Height="150" Width="150" FontSize="17" Margin="20 0 20 0"/>
+                                        <publiccontrol:ClassPercentage x:Name="xml_foreignmatter" ClassImage="pack://application:,,,/Resources/foreignMatter.png" ClassName="이물질 접촉" Height="150" Width="150" FontSize="17" Margin="20 0 20 0"/>
+                                        <publiccontrol:ClassPercentage x:Name="xml_powererror" ClassImage="pack://application:,,,/Resources/powerError.png" ClassName="전원 이상" Height="150" Width="150" FontSize="17" Margin="20 0 20 0"/>
+                                        <publiccontrol:ClassPercentage x:Name="xml_stopped" ClassImage="pack://application:,,,/Resources/stop.png" ClassName="동작 중지" Height="150" Width="150" FontSize="17" Margin="20 0 20 0"/>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </Grid>
+
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Foreground="White" FontSize="20" Text="로그" Grid.RowSpan="2" Margin="5"/>
+                            <Border Grid.Row="1"  BorderBrush="White" BorderThickness="2" Margin="5" CornerRadius="5" Grid.RowSpan="2">
+                                <TextBox Name="xml_log" Background="Transparent" FontSize="20" Foreground="White" TextWrapping="Wrap"/>
+                            </Border>
+                        </Grid>
+
+                    </Grid>
+                </Grid>
+
+                <!-- Show, Hide로 보여줄 컨트롤 조절 -->
+                <Grid Grid.Column="1">
+                    <childviews:Hardware x:Name="xml_hardware" Visibility="Collapsed"/>
+                    <childviews:Software x:Name="xml_software" Visibility="Collapsed"/>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+        <!-- 스크롤 애니메이션을 위한 바인딩 -->
+        <local:ScrollViewerOffsetMediator x:Name="Mediator" ScrollViewer="{Binding ElementName=xml_Scroll}"/>
+    </Grid>
+</Window>

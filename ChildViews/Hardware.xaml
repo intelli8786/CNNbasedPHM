@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="CNNBasedPHM.ChildViews.Hardware"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CNNBasedPHM.ChildViews"
+             xmlns:publiccontrol="clr-namespace:CNNBasedPHM.PublicControl"
+             mc:Ignorable="d" Background="#454548">
+
+    <!-- 최대화사이즈로 렌더링 -->
+    <UserControl.Style>
+        <Style>
+            <Setter Property="Window.Height" Value="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}}"/>
+            <Setter Property="Window.Width" Value="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}}"/>
+        </Style>
+    </UserControl.Style>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="20*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <publiccontrol:PublicButton x:Name="xml_toConsole" Text="관리 콘솔" FontSize="25" Margin="5" MouseUp="xml_toConsole_MouseUp"/>
+            </StackPanel>
+            <TextBlock FontSize="30" Text="하드웨어 구성" Foreground="White" HorizontalAlignment="Right" Margin="20 5 20 5"/>
+        </Grid>
+
+        <Image Grid.Row="1" Source="pack://application:,,,/Resources/hardware2.png"/>
+
+    </Grid>
+</UserControl>
